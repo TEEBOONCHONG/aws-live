@@ -96,23 +96,21 @@ def AddEmp():
 
 @app.route("/fetchdata", methods=['POST'])
 def GetEmp():
-    emp_id = request.form['emp_id']
+    emp_id = request.args['emp_id']
+    get_details = "SELECT (%s, %s, %s, %s, %s) FROM employee WHERE emp_id" + " = " + emp_id
 
-    select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
+
     cursor = db_conn.cursor()
 
     try:
 
-        cursor.execute(select_sql, (emp_id))
+        cursor.execute(get_details, (first_name, last_name, pri_skill, location, salary))
         db_conn.commit()
-        #emp_name = "" + first_name + " " + last_name#
-        # Uplaod image file in S3 #
-        #emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"#
         s3 = boto3.resource('s3')
 
         try:
             print("Data selected from MySQL RDS...")
-            #s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)#
+            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
