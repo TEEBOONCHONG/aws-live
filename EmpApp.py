@@ -100,14 +100,14 @@ def AddEmp():
 def GetEmp():
     emp_id = request.form['emp_id']
 
-    select_sql = "SELECT (%s, %s, %s, %s, %s, %s) FROM employee WHERE emp_id=emp_id"
+    select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
     cursor = db_conn.cursor()
 
     try:
 
-        cursor.execute(select_sql, (emp_id, request.form['first_name'], request.form['last_name'], request.form['pri_skill'], request.form['location'], request.form['salary']))
+        cursor.execute(select_sql, (*))
         db_conn.commit()
-        emp_name = "" + 'first_name' + " " + 'last_name'
+        emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
         #emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"#
         s3 = boto3.resource('s3')
