@@ -190,7 +190,7 @@ def Payroll():
     deduct = request.form['deduct']
 
     select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
-    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id"
+    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id
     cursor = db_conn.cursor()
 
     try:
