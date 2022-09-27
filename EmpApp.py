@@ -33,9 +33,9 @@ def findEmp():
 def leave():
     return render_template('empLeave.html')
 
-@app.route("/empPayroll", methods=['GET', 'POST'])
-def emppayroll():
-    return render_template('empPayroll.html')
+@app.route("/empAttendance", methods=['GET', 'POST'])
+def empAttend():
+    return render_template('empAttendance.html')
 
 
 @app.route("/about", methods=['POST'])
