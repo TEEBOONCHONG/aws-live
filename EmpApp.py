@@ -106,8 +106,8 @@ def GetEmp():
 
         cursor.execute(get_details)
 	  results = cursor.fetchall()
-        db_conn.commit()
-        s3 = boto3.resource('s3')
+       # db_conn.commit()#
+        #s3 = boto3.resource('s3')#
 
     finally:
         cursor.close()
