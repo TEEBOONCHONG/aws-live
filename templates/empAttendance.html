@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Employee Payroll</title>
+      <title>Employee Attendance</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -83,12 +83,12 @@
       
       <!-- banner -->
       <section class="banner_main">
-        <form action="/payroll" autocomplete="on" method = "GET, POST" enctype="multipart/form-data">
+        <form action="/empattend" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
             Employee ID: <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
-    
-            <span class="text">Deduct:  </span>&emsp;&emsp;&emsp;<input style="height:25px;font-size:14pt;color:grey;" type="number" name="deduct"> <br><br>
 
+            Attendance Status: <input style="height:25px;font-size:14pt;" type="number" name="attstatus" autofocus size="40"><br><br>
+   
             <button type="submit" formaction="/payroll" style="background: gray	; height: 60px; width: 200px; color: white; size: 5; font:oblique;" formmethod="GET, POST">Start Payroll</button>
 
  
