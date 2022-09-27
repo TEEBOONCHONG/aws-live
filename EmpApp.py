@@ -204,6 +204,9 @@ def AddEmp():
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
 
+        except Exception as e:
+            return str(e)
+
     finally:
         cursor.close()
 
