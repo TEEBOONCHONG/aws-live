@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payroll</title>
+</head>
+
+<style>
+   * {box-sizing: border-box;}
+
+body { 
+  margin: 0;
+  font-family: sans-serif Montserrat;
+  font-weight: bold;
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+  
+}
+
+.logo{
+	width: 200px;
+	height: 100px;
+}
+
+
+.header {
+  overflow: hidden;
+  background-color: #192436;
+  padding: 5px 50px 5px 30px;
+}
+
+.header a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 22px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.active {
+  color: white;
+  background-color: #34495E;
+}
+
+.header a:hover {
+  background-color: #154360;
+}
+
+.header-right {
+  float: right;
+  padding-top: 40px
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  
+  .header-right {
+    float: none;
+  }
+}
+
+#bgBox{
+background-color: white;
+width: 700px;
+margin: 5% auto;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+ 
+ .bgBoxsmall{
+ padding-right: 100px
+ 
+ 
+ }
+
+
+    #button {
+        width: 8em;
+        border: 2px solid white;
+        background: white;
+        border-radius: 5px;
+    }
+ 
+	footer{
+	clear: left;
+}
+
+    </style>
+ <body>
+			<!-------------------------header------------------------->
+
+<div class="header">
+			<div class="header-right">
+				<a  href="/">Home</a>
+				<a  href="/addEmp">Add Employee</a>
+            <a  href="/editEmp">Edit Employee</a>
+				<a  href="/deleteEmp">Remove Employee</a>
+				<a  class="active" href="/find">Find Employee</a>
+				<a  href="/empAttendance">Sign Attendance</a>
+				<a  href="/empPayroll">Payroll</a>
+				<a  href="/empLeave">Apply Leave</a>
+            <a  href="/about">About Us</a>
+			</div>
+  
+</div>
+<center>
+	<font color="black" size="4" style="font-family: avenir">
+<div id="bgBox">
+		<h1 style="color: black">Find Employee</h1>
+         <form action="/fetchdata" autocomplete="on" method="GET, POST">
+
+            <h2 style="color: grey">Enter Employee ID</h2>
+
+            Employee ID:<br> <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
+
+            <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">FETCH INFO</button><br><br>
+
+            <button type="submit" formaction="/addEmp" style="background: gray	; height: 60px; width: 200px; color: white; size: 5; font:oblique;" method="GET">GO TO UPDATE DATABASE PAGE</button>
+         </form>
+	</div>
+
+			<br><br>
+
+	
+
+	</font>
+		</body>
+</center>
+</html>
