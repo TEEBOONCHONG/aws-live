@@ -107,7 +107,7 @@ def GetEmp():
 
         cursor.execute(select_sql, (emp_id))
         db_conn.commit()
-        emp_name = "" + first_name + " " + last_name
+        #emp_name = "" + first_name + " " + last_name#
         # Uplaod image file in S3 #
         #emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"#
         s3 = boto3.resource('s3')
