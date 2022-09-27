@@ -248,7 +248,7 @@ def empEdit():
     update_sql = "UPDATE employee SET first_name = %s, last_name = %s, pri_skill = %s, location = %s, salary = %s WHERE emp_id = %s"
     cursor = db_conn.cursor()
     
-    changeInfo = (first_name, last_name, pri_skill, location, salary emp_id)
+    changeInfo = (first_name, last_name, pri_skill, location, salary, emp_id)
     cursor.execute(update_sql, (changeInfo))
     db_conn.commit()
     cursor.close()
