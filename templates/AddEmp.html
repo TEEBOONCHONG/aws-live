@@ -44,12 +44,14 @@
       <!-- end loader -->
       <div id="mySidepanel" class="sidepanel">
          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-         <a href="index.html">Home </a>
+         <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+            <a href="index.html">Home </a>
          <a href="about.html">About</a>
          <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formaction="http://3.134.115.108:80/">Add Employee</button>
          <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formaction="http://3.134.115.108:80/fetchdata">Find Employee</button>
          <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formaction="http://3.134.115.108:80/applyleave">Apply Leave</button>
          <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formaction="http://3.134.115.108:80/payroll">Payroll</button>
+         </form>
       </div>
 
       <!-- header -->
