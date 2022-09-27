@@ -21,7 +21,7 @@ output = {}
 table = 'employee'
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/addEmp", methods=['GET', 'POST'])
 def home():
     return render_template('AddEmp.html')
 
@@ -38,9 +38,25 @@ def empAttend():
     return render_template('empAttendance.html')
 
 
-@app.route("/about", methods=['POST'])
+@app.route("/empPayroll", methods=['GET','POST'])
+def empUpdate():
+    return render_template('empPayroll.html')
+
+
+@app.route("/about", methods=['GET', 'POST'])
 def about():
     return render_template('www.intellipaat.com')
+
+@app.route("/deleteEmp", methods=['GET','POST'])
+def empDelete():
+    return render_template("DeleteEmp.html")
+
+@app.route("/editEmp", methods=['GET','POST'])
+def empEdit():
+    return render_template("EditEmp.html")
+
+
+
 
 
 @app.route("/addemp", methods=['POST'])
@@ -173,7 +189,7 @@ def ApplyLeave():
 
 
 @app.route("/empattend", methods=['POST'])
-def EmpAtt():
+def empAttendance():
     emp_id = request.form['emp_id']
     attstatus = request.form['attstatus']
 
@@ -192,6 +208,51 @@ def EmpAtt():
     return render_template('GetAttendanceOutput.html', status=status)
 
 
+
+@app.route("/payupdate", methods=['GET','POST'])
+def dirpay():
+    emp_id = request.form['emp_id']
+    salary = request.form['salary']
+
+    updatesql = "UPDATE employee SET salary= %s WHERE emp_id = %s"
+    mycursor = db_conn.cursor()
+    changefield = (salary, emp_id)
+    mycursor.execute(updatesql, (changefield))
+    db_conn.commit()
+    mycursor.close()
+    return render_template("GetPayrollOutput.html")
+
+
+@app.route("/deleteInfo", methods=['GET','POST'])
+def DeleteEmp():
+    emp_id = request.form['emp_id']
+    mycursor = db_conn.cursor()
+    del_emp = "DELETE FROM employee WHERE emp_id = %s"
+    mycursor.execute(del_emp, (emp_id))
+    db_conn.commit()
+
+    return render_template('GetDeleteOutput.html', emp_id=emp_id)
+
+
+
+@app.route("/editdetails", methods=['GET','POST'])
+def empEdit():
+    emp_id = request.form['emp_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_image_file = request.files['emp_image_file']
+    salary = request.form['salary']
+    
+    update_sql = "UPDATE employee SET first_name = %s, last_name = %s, pri_skill = %s, location = %s, salary = %s WHERE emp_id = %s"
+    cursor = db_conn.cursor()
+    
+    changeInfo = (first_name, last_name, pri_skill, location, salary emp_id)
+    cursor.execute(update_sql, (changeInfo))
+    db_conn.commit()
+    cursor.close()
+    return render_template("GetEditOutput.html")
 
 
 if __name__ == '__main__':
