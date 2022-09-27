@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Add Employee Details</title>
+      <title>Employee Apply Leave</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -16,18 +16,6 @@
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <!-- style css -->
       <link rel="stylesheet" href="css/style.css">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="css/responsive.css">
-      <!-- fevicon -->
-      <link rel="icon" href="images/fevicon.png" type="image/gif" />
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-      <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
       <link rel="stylesheet" href="css/employeeLeave.css">
       <link rel="stylesheet" href="css/payroll.css">
    </head>
@@ -41,6 +29,7 @@
       <div class="loader_bg">
          <!-- <div class="loader"><img src="images/loading.gif" alt="#" /></div> -->
       </div>
+      <!-- end loader -->
       <!-- end loader -->
       <div id="mySidepanel" class="sidepanel">
          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -61,8 +50,8 @@
             <div class="container-fluid">
                <div class="row">
                   <div class="col-md-4 col-sm-4">
-                     <div class="logo">
-                        <!-- <a href="index.html"><img src="images/logo.png" alt="#" /></a> -->
+                     <div>
+                        <p class="title1">Employee Leave</p>
                      </div>
                   </div>
                   <div class="col-md-8 col-sm-8">
@@ -83,33 +72,53 @@
       
       <!-- banner -->
       <section class="banner_main">
-         <center>
-            <font color="black" size="4" style="font-family: avenir">
-         
-               <h1 style="color: DodgerBlue">Employee Database</h1>
-        <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+        <form action="/applyleave" autocomplete="on" method = "GET, POST" enctype="multipart/form-data">
+          
+          <div class="leave">
 
-            <button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 300px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
+              Employee ID: <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
+              
+              Date of leave:  
+              <input type="date" id="birthday" name="birthday">
+              <br><br>
 
-              Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
+              Reason of leave:<input style="height:25px;font-size:14pt;color:grey;" type="text" name="reasonLeave"><br><br>
 
-              First Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="first_name" ><br><br>
+              Supporting Document: <input type=file name="leave_document" style="height:50px;font-size:14pt;color:grey;"> <br><br>
 
-              Last Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="last_name"><br><br>
+              <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">SUBMIT LEAVE</button>
 
-              Primary Skills:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="pri_skill"><br><br>
+          </div><br>
 
-              Location:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="location"><br><br>
-
-              Salary:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="salary"><br><br>
-
-              Image: <input type=file name="emp_image_file" style="height:40px;font-size:14pt;color:grey;"> <br><br>
-
-              <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
-
-        </form>
-      </font>
-   </center>
+    
+</form>
+<br>
+      <table>
+          <tr>
+            <th>Employee ID</th>
+            <th>Attendance Leave Period</th>
+            <th>Reason of Leave</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>{{ ID }}</td>
+            <td>{{ Period }}</td>
+            <td>{{ Reason }}</td>
+            <td>{{ Status }}</td>
+          </tr>
+          <tr>
+              <td>{{ ID }}</td>
+              <td>{{ Period }}</td>
+              <td>{{ Reason }}</td>
+              <td>{{ Status }}</td>
+          </tr>
+          <tr>
+              <td>{{ ID }}</td>
+              <td>{{ Period }}</td>
+              <td>{{ Reason }}</td>
+              <td>{{ Status }}</td>
+          </tr>
+        </table>
       </section>
       <!-- end banner -->
 
@@ -179,3 +188,12 @@
       </script>
    </body>
 </html>
+
+
+
+
+
+
+
+
+
