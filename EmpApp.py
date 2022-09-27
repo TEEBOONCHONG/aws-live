@@ -105,7 +105,7 @@ def GetEmp():
 
     try:
 
-        cursor.execute(select_sql, (*))
+        cursor.execute(select_sql, (emp_id))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
