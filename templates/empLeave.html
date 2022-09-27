@@ -1,199 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
-      <title>Employee Apply Leave</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <!-- bootstrap css -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <!-- style css -->
-      <link rel="stylesheet" href="css/style.css">
-      <link rel="stylesheet" href="css/employeeLeave.css">
-      <link rel="stylesheet" href="css/payroll.css">
-   </head>
+from flask import Flask, render_template, request
+from pymysql import connections
+import os
+import boto3
+from config import *
+
+app = Flask(__name__)
+
+bucket = custombucket
+region = customregion
+
+db_conn = connections.Connection(
+    host=customhost,
+    port=3306,
+    user=customuser,
+    password=custompass,
+    db=customdb
+
+)
+output = {}
+table = 'employee'
+
+
+@app.route("/", methods=['GET', 'POST'])
+def home():
+    return render_template('AddEmp.html')
+
+@app.route("/find", methods=['GET', 'POST'])
+def findEmp():
+    return render_template('GetEmp.html')
+
+@app.route("/empLeave", methods=['GET', 'POST'])
+def leave():
+    return render_template('empLeave.html')
+
+@app.route("/empPayroll", methods=['GET', 'POST'])
+def emppayroll():
+    return render_template('empPayroll.html')
+
+
+@app.route("/about", methods=['POST'])
+def about():
+    return render_template('www.intellipaat.com')
+
+
+@app.route("/addemp", methods=['POST'])
+def AddEmp():
+    emp_id = request.form['emp_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_image_file = request.files['emp_image_file']
+    salary = request.form['salary']
+
+    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor = db_conn.cursor()
+
+    if emp_image_file.filename == "":
+        return "Please select a file"
+
+    try:
+
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location, salary))
+        db_conn.commit()
+        emp_name = "" + first_name + " " + last_name
+        # Uplaod image file in S3 #
+        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        s3 = boto3.resource('s3')
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
+
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
+
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                emp_image_file_name_in_s3)
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    return render_template('AddEmpOutput.html', name=emp_name)
+
+
+
+def showimage(bucket):
+    s3_client = boto3.client('s3')
+    public_urls = []
+    emp_id = request.args['emp_id']
+    try:
+        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
+            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
+            public_urls.append(presigned_url)
+    except Exception as e:
+        pass
+    # print("[INFO] : The contents inside show_image = ", public_urls)
+    return public_urls
+
+
+
+@app.route("/fetchdata", methods=['GET'])
+def GetEmp():
+    emp_id = request.args['emp_id']
+    mycursor = db_conn.cursor()
+    getempdata = "select * from employee WHERE emp_id = %s"
+    mycursor.execute(getempdata,(emp_id))
+    result = mycursor.fetchall()
+    (emp_id,first_name,last_name,pri_skill,location,salary) = result[0]
+    image_url = showimage(bucket)
+
+    return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary,image_url=image_url)
 
 
 
 
-   <!-- body -->
-   <body class="main-layout">
-      <!-- loader  -->
-      <div class="loader_bg">
-         <!-- <div class="loader"><img src="images/loading.gif" alt="#" /></div> -->
-      </div>
-      <!-- end loader -->
-      <!-- end loader -->
-      <div id="mySidepanel" class="sidepanel">
-         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-         <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
-            <a href="index.html">Home </a>
-            <a href="about.html">About</a>
-            <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formmethod="GET / POST" formaction="/">Add Employee</button>
-            <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formmethod="GET / POST" formaction="/find">Find Employee</button>
-            <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formmethod="GET / POST" formaction="/empLeave">Apply Leave</button>
-            <button type="submit" style="background: black; height: 45px; width: 200px; color:white; font:oblique;" formmethod="GET / POST" formaction="/empPayroll">Payroll</button>
-         </form>
-      </div>
+@app.route("/applyleave", methods=['POST'])
+def ApplyLeave():
+    emp_id = request.form['emp_id']
+    date_leave = request.form['str(date_leave)']
+    reason_leave = request.form['reason_leave']
+    support_doc_file = request.files['support_doc_file']
 
-      <!-- header -->
-      <header>
-         <!-- header inner -->
-         <div class="header">
-            <div class="container-fluid">
-               <div class="row">
-                  <div class="col-md-4 col-sm-4">
-                     <div>
-                        <p class="title1">Employee Leave</p>
-                     </div>
-                  </div>
-                  <div class="col-md-8 col-sm-8">
-                     <div class="right_bottun">
-                        <ul class="conat_info d_none ">
-                           <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                           <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                        </ul>
-                        <button class="openbtn" onclick="openNav()"><img src="images/menu_icon.png" alt="#"/> </button> 
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </header>
-      <!-- end header inner -->
-      <!-- end header -->
-      
-      <!-- banner -->
-      <section class="banner_main">
-        <form action="/applyleave" autocomplete="on" method = "POST" enctype="multipart/form-data">
-          
-          <div class="leave">
+    insert_sql = "INSERT INTO empLeave VALUES (%s, %s, %s)"
+    cursor = db_conn.cursor()
 
-              Employee ID: <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
-              
-              Date of leave:  
-              <input type="date" name="date_leave">
-              <br><br>
+    if support_doc_file.filename == "":
+        return "Please select a file"
 
-              Reason of leave:<input style="height:25px;font-size:14pt;color:grey;" type="text" name="reason_leave"><br><br>
+    try:
 
-              Supporting Document: <input type=file name="leave_document" style="height:50px;font-size:14pt;color:grey;"> <br><br>
+        cursor.execute(insert_sql, (emp_id, date_leave, reason_leave))
+        db_conn.commit()
+        # Uplaod image file in S3 #
+        support_doc_file_in_s3 = "emp-id-" + str(emp_id) + "_support_doc_file"
+        s3 = boto3.resource('s3')
 
-              <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">SUBMIT LEAVE</button>
+        try:
+            print("Data inserted in MySQL RDS... uploading evidence to S3...")
+            s3.Bucket(custombucket).put_object(Key=support_doc_file_in_s3, Body=support_doc_file)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
 
-          </div><br>
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
 
-    
-</form>
-<br>
-      <table>
-          <tr>
-            <th>Employee ID</th>
-            <th>Attendance Leave Period</th>
-            <th>Reason of Leave</th>
-            <th>Status</th>
-          </tr>
-          <tr>
-            <td>{{ ID }}</td>
-            <td>{{ Period }}</td>
-            <td>{{ Reason }}</td>
-            <td>{{ Status }}</td>
-          </tr>
-          <tr>
-              <td>{{ ID }}</td>
-              <td>{{ Period }}</td>
-              <td>{{ Reason }}</td>
-              <td>{{ Status }}</td>
-          </tr>
-          <tr>
-              <td>{{ ID }}</td>
-              <td>{{ Period }}</td>
-              <td>{{ Reason }}</td>
-              <td>{{ Status }}</td>
-          </tr>
-        </table>
-      </section>
-      <!-- end banner -->
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                support_doc_file_in_s3)
 
-      
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave)
 
 
 
+@app.route("/payroll", methods=['GET', 'POST'])
+def Payroll():
+    emp_id = request.form['emp_id']
+    salary = request.form['salary']
+    deduct = request.form['deduct']
 
-      <!--  footer -->
-      <footer>
-         <div class="footer bottom_cross1">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-4">
-                     <ul class="location_icon">
-                        <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> Address : Lorem Ipsum <br> is simply dummy 
-                        </li>
-                        <li><a href="#"><i class="fa fa-phone" aria-hidden="true"></i></a>Phone :  +(1234) 567 890</li>
-                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a>Email : demo@gmail.com</li>
-                     </ul>
-                     <form class="bottom_form">
-                        <h3>Newsletter</h3>
-                        <input class="enter" placeholder="Enter your email" type="text" name="Enter your email">
-                        <button class="sub_btn">subscribe</button>
-                     </form>
-                  </div>
-                  <div class="col-md-8">
-                     <div class="map">
-                        <figure><img src="images/map.png" alt="#"/></figure>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="copyright">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <p>© 2019 All Rights Reserved. Design by<a href="https://html.design/"> Free Html Templates</a></p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </footer>
-      <!-- end footer -->
+    select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
+    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(select_sql, (salary))
+        cursor.execute(insert_sql, (deduct))
+        db_conn.commit()
+        new_salary = salary - deduct
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    return render_template('GetPayrollOutput.html', id=emp_id, salary=salary, deduct=deduct, new_salary=new_salary)
 
 
 
-
-      
-      <!-- Javascript files-->
-      <script src="js/jquery.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.bundle.min.js"></script>
-      <script src="js/jquery-3.0.0.min.js"></script>
-      <!-- sidebar -->
-      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="js/custom.js"></script>
-      <script>
-         function openNav() {
-           document.getElementById("mySidepanel").style.width = "250px";
-         }
-         
-         function closeNav() {
-           document.getElementById("mySidepanel").style.width = "0";
-         }
-      </script>
-   </body>
-</html>
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=True)
