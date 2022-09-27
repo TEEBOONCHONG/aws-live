@@ -95,5 +95,83 @@ def AddEmp():
 
 
 
+
+@app.route("/applyleave", methods=['GET', 'POST'])
+def ApplyLeave():
+    emp_id = request.form['emp_id']
+    date_leave = request.form['date_leave']
+    reason_leave = request.form['reason_leave']
+    support_doc_file = request.form['support_doc_file']
+
+    insert_sql = "INSERT INTO employee VALUES (%s, %s) WHERE emp_id=emp_id"
+    cursor = db_conn.cursor()
+
+    if support_doc_file.filename == "":
+        return "Please select a file"
+
+    try:
+
+        cursor.execute(insert_sql, (date_leave, reason_leave))
+        db_conn.commit()
+        # Uplaod image file in S3 #
+        support_doc_file_in_s3 = "emp-id-" + str(emp_id) + "_support_doc_file"
+        s3 = boto3.resource('s3')
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+            s3.Bucket(custombucket).put_object(Key=support_doc_file_in_s3, Body=support_doc_file)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
+
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
+
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                support_doc_file_in_s3)
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave, docs_url=object_url)
+
+
+@app.route("/payroll", methods=['GET', 'POST'])
+def Payroll():
+    emp_id = request.form['emp_id']
+    salary = request.form['salary']
+    deduct = request.form['deduct']
+
+    select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
+    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(select_sql, (salary))
+        cursor.execute(insert_sql, (deduct))
+        db_conn.commit()
+        new_salary = salary - deduct
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    return render_template('GetPayrollOutput.html', id=emp_id, salary=salary, deduct=deduct, new_salary=new_salary)
+
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=82, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
