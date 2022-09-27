@@ -94,9 +94,9 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
-@app.route("/fetchdata", methods=['GET', 'POST'])
+@app.route("/fetchdata", methods=['GET'])
 def GetEmp():
-    emp_id = request.form['emp_id']
+    emp_id = request.args['emp_id']
     mycursor = db_conn.cursor()
     getempdata = "select * from employee WHERE emp_id = %s"
     mycursor.execute(getempdata,(emp_id))
