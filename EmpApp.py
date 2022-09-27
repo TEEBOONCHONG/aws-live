@@ -118,12 +118,11 @@ def showimage(bucket):
     s3_client = boto3.client('s3')
     public_urls = []
     emp_id = request.args['emp_id']
-    try:
-        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
-            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
-            public_urls.append(presigned_url)
-    except Exception as e:
-        pass
+    emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                emp_image_file_name_in_s3)
     # print("[INFO] : The contents inside show_image = ", public_urls)
     return public_urls
 
