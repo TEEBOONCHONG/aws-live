@@ -85,7 +85,7 @@ def AddEmp():
 
 
 @app.route("/fetchdata", methods=['GET'])
-def AddEmp():
+def GetEmp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
@@ -139,7 +139,7 @@ def AddEmp():
 
 
 @app.route("/applyleave", methods=['GET', 'POST'])
-def AddEmp():
+def ApplyLeave():
     emp_id = request.form['emp_id']
     date_leave = request.form['date_leave']
     reason_leave = request.form['reason_leave']
@@ -186,7 +186,7 @@ def AddEmp():
 
 
 @app.route("/payroll", methods=['GET', 'POST'])
-def AddEmp():
+def Payroll():
     emp_id = request.form['emp_id']
     salary = request.form['salary']
     deduct = request.form['deduct']
