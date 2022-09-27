@@ -31,11 +31,11 @@ def findEmp():
 
 @app.route("/empLeave", methods=['GET', 'POST'])
 def leave():
-    return render_template('apleave.html')
+    return render_template('empLeave.html')
 
 @app.route("/empPayroll", methods=['GET', 'POST'])
 def emppayroll():
-    return render_template('payrollEmp.html')
+    return render_template('empPayroll.html')
 
 
 @app.route("/about", methods=['POST'])
