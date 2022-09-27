@@ -97,7 +97,7 @@ def AddEmp():
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
-    get_details = "SELECT first_name FROM employee WHERE emp_id + " = " + emp_id"
+    get_details = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
 
 
     cursor = db_conn.cursor()
