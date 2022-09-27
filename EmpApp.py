@@ -94,6 +94,22 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
+
+def showimage(bucket):
+    s3_client = boto3.client('s3')
+    public_urls = []
+    emp_id = request.form['emp_id']
+    try:
+        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
+            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
+            public_urls.append(presigned_url)
+    except Exception as e:
+        pass
+    # print("[INFO] : The contents inside show_image = ", public_urls)
+    return public_urls
+
+
+
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
