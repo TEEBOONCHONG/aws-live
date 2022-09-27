@@ -96,21 +96,12 @@ def AddEmp():
 
 
 
-@app.route("/fetchdata", methods=['GET'])
+@app.route("/fetchdata", methods=['GET', 'POST'])
 def GetEmp():
     emp_id = request.form['emp_id']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    pri_skill = request.form['pri_skill']
-    location = request.form['location']
-    emp_image_file = request.files['emp_image_file']
-    salary = request.form['salary']
 
     select_sql = "SELECT (%s, %s, %s, %s, %s, %s) FROM employee WHERE emp_id=emp_id"
     cursor = db_conn.cursor()
-
-    if emp_image_file.filename == "":
-        return "Please select a file"
 
     try:
 
