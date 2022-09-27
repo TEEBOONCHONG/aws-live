@@ -118,9 +118,9 @@ def GetEmp():
     mycursor.execute(getempdata,(emp_id))
     result = mycursor.fetchall()
     (emp_id,first_name,last_name,pri_skill,location,salary) = result[0]
-    #image_url = showimage(bucket)#
+    image_url = showimage(bucket)
 
-    return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary)
+    return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary,image_url=image_url)
 
 
 
