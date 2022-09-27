@@ -177,13 +177,13 @@ def ApplyLeave():
 
 @app.route("/payroll", methods=['GET, POST'])
 def Payroll():
-    emp_id = request.args['emp_id']
+    emp_id = request.form['emp_id']
     deduct = request.form['deduct']
 
     cursor = db_conn.cursor()
     getEmpSalary = "select salary from employee WHERE emp_id = %s"
     cursor.execute(getEmpSalary, (emp_id))
-    result[0] = mycursor.fetchall()
+    mycursor.fetchall()
     new_salary = getEmpSalary - deduct
 
 
