@@ -236,7 +236,7 @@ def DeleteEmp():
 
 
 @app.route("/editdetails", methods=['GET','POST'])
-def empEdit():
+def empedit():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
