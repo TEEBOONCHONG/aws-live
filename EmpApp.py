@@ -98,11 +98,14 @@ def AddEmp():
 def GetEmp():
     emp_id = request.args['emp_id']
     get_details = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
+    get_details1 = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id
+
 
     cursor = db_conn.cursor()
 
     try:
         result = cursor.execute(get_details)
+        result1 = cursor.execute(get_details)
         #db_conn.commit()#
         #s3 = boto3.resource('s3')#
 
@@ -110,7 +113,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result)
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result, lname=result1)
 
 
 
