@@ -94,34 +94,19 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
-@app.route("/fetchdata", methods=['GET'])
+@app.route("/fetchdata", methods=['GET', 'POST'])
 def GetEmp():
-    emp_id = request.args['emp_id']
-    get_fname = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_lname = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_pri = "SELECT pri_skill FROM employee WHERE emp_id" + " = " + emp_id
-    get_location = "SELECT location FROM employee WHERE emp_id" + " = " + emp_id
-    get_salary = "SELECT salary FROM employee WHERE emp_id" + " = " + emp_id
+    emp_id = request.form['emp_id']
+    mycursor = db_conn.cursor()
+    getempdata = "select * from employee WHERE emp_id = %s"
+    mycursor.execute(getempdata,(emp_id))
+    result = mycursor.fetchall()
+    (emp_id,first_name,last_name,pri_skill,location,salary) = result[0]
+    #image_url = showimage(bucket)#
+
+    return render_template('GetEmpDataOut.html', emp_id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary)
 
 
-    cursor = db_conn.cursor()
-
-    try:
-        cursor.execute(get_fname)
-	  result_fname = cursor.execute(get_fname)
-	  result_lname = cursor.execute(get_lname)
-        result_pri = cursor.execute(get_pri)
-        result_location = cursor.execute(get_location)
-        result_salary = cursor.execute(get_salary)
-        result = cursor.fetchall()
-        #db_conn.commit()#
-        #s3 = boto3.resource('s3')#
-
-    finally:
-        cursor.close()
-
-    print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_fname , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
 
 
 
