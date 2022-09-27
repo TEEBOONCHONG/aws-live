@@ -98,7 +98,7 @@ def AddEmp():
 def GetEmp():
     emp_id = request.args['emp_id']
     first_name = request.args['first_name']
-    get_details = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id"
+    get_details = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
 
 
     cursor = db_conn.cursor()
@@ -190,7 +190,7 @@ def Payroll():
     deduct = request.form['deduct']
 
     select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
-    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id
+    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id"
     cursor = db_conn.cursor()
 
     try:
