@@ -187,21 +187,5 @@ def Payroll():
     return render_template('GetPayrollOutput.html', id=emp_id, salary=getSalary, deduct=deduct, new_salary=new_salary)
 
 
-@app.route("/payroll", methods=['POST'])
-def Payroll():
-    emp_id = request.form['emp_id']
-    deduct = request.form['deduct']
-
-    cursor = db_conn.cursor()
-    getEmpSalary = "select salary from employee WHERE emp_id = %s"
-    cursor.execute(getEmpSalary, (emp_id))
-    mycursor.fetchall()
-    new_salary = getEmpSalary - deduct
-
-
-    return render_template('GetPayrollOutput.html', id=emp_id, salary=salary, deduct=deduct, new_salary=new_salary)
-
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
