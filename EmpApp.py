@@ -173,32 +173,38 @@ def ApplyLeave():
 
 
 
-@app.route("/payroll", methods=['GET', 'POST'])
+
+
+@app.route("/fetchdata", methods=['GET'])
+def GetEmp():
+    emp_id = request.args['emp_id']
+    mycursor = db_conn.cursor()
+    getempdata = "select * from employee WHERE emp_id = %s"
+    mycursor.execute(getempdata,(emp_id))
+    result = mycursor.fetchall()
+    (emp_id,first_name,last_name,pri_skill,location,salary) = result[0]
+    image_url = showimage(bucket)
+
+    return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary,image_url=image_url)
+
+
+
+@app.route("/payroll", methods=['GET, POST'])
 def Payroll():
-    emp_id = request.form['emp_id']
-    salary = request.form['salary']
+    emp_id = request.args['emp_id']
     deduct = request.form['deduct']
 
-    select_sql = "SELECT (%s) FROM employee WHERE emp_id=emp_id"
-    insert_sql = "INSERT INTO employee VALUES (%s) WHERE emp_id=emp_id"
+    getEmpSalary = "select salary from employee WHERE emp_id = %s"
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(select_sql, (salary))
-        cursor.execute(insert_sql, (deduct))
-        db_conn.commit()
+        cursor.execute(getEmpSalary, (emp_id))
+    	  result[0] = mycursor.fetchall()
         new_salary = salary - deduct
-
-        try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-
-        except Exception as e:
-            return str(e)
 
     finally:
         cursor.close()
 
-    print("all modification done...")
     return render_template('GetPayrollOutput.html', id=emp_id, salary=salary, deduct=deduct, new_salary=new_salary)
 
 
