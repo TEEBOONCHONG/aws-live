@@ -175,7 +175,7 @@ def ApplyLeave():
 @app.route("/payroll", methods=['GET', 'POST'])
 def Payroll():
     emp_id = request.args['emp_id']
-    deduct = request.form['deduct']
+    deduct = request.args['deduct']
 
     mycursor = db_conn.cursor()
     cursor = db_conn.cursor()
