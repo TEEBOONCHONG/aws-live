@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Add Employee Details</title>
+      <title>Employee Payroll</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -81,33 +81,24 @@
       
       <!-- banner -->
       <section class="banner_main">
-         <center>
-            <font color="black" size="4" style="font-family: avenir">
-         
-               <h1 style="color: DodgerBlue">Employee Database</h1>
-        <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+        <form action="/payroll" autocomplete="on" method = "GET, POST" enctype="multipart/form-data">
+            <div class = "content1">
+                <div class="contentLeft">
+                    <button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
 
-            <button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 300px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
+                    Employee ID: <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
 
-              Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
-
-              First Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="first_name" ><br><br>
-
-              Last Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="last_name"><br><br>
-
-              Primary Skills:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="pri_skill"><br><br>
-
-              Location:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="location"><br><br>
-
-              Salary:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="salary"><br><br>
-
-              Image: <input type=file name="emp_image_file" style="height:40px;font-size:14pt;color:grey;"> <br><br>
-
-              <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
-
+                    <span class="text">Salary: </span>&emsp;&emsp;{{ current salary }} <br><br>
+    
+                    <span class="text">Deduct:  </span>&emsp;&emsp;&emsp;<input style="height:25px;font-size:14pt;color:grey;" type="number" name="deduct"> <br>
+    
+                    
+    
+                      <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
+                </div>
+            </div>
+ 
         </form>
-      </font>
-   </center>
       </section>
       <!-- end banner -->
 
@@ -177,3 +168,4 @@
       </script>
    </body>
 </html>
+

@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Add Employee Details</title>
+      <title>About us</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -81,33 +81,25 @@
       
       <!-- banner -->
       <section class="banner_main">
-         <center>
-            <font color="black" size="4" style="font-family: avenir">
-         
-               <h1 style="color: DodgerBlue">Employee Database</h1>
-        <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
-
-            <button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 300px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
-
-              Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
-
-              First Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="first_name" ><br><br>
-
-              Last Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="last_name"><br><br>
-
-              Primary Skills:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="pri_skill"><br><br>
-
-              Location:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="location"><br><br>
-
-              Salary:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="salary"><br><br>
-
-              Image: <input type=file name="emp_image_file" style="height:40px;font-size:14pt;color:grey;"> <br><br>
-
-              <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
-
-        </form>
-      </font>
-   </center>
+        <div id="about" class="about ">
+            <div class="container">
+               <div class="row d_flex">
+                  <div class="col-md-6">
+                     <div class="about_right">
+                        <figure><img src="images/about.png" alt="#"/></figure>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="titlepage">
+                        <h2>About Us</h2>
+                        <p> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, There 
+                        </p>
+                        <a class="read_more" href="#">Read More</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </section>
       <!-- end banner -->
 
@@ -177,3 +169,4 @@
       </script>
    </body>
 </html>
+
