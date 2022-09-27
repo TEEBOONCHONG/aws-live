@@ -160,7 +160,7 @@ var loadFile = function(event) {
 <div id="bgBox">
 		<h1 style="color: black">Edit Employee Page</h1>
 
-      <form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+      <form action="/editdetails" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
          <button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 300px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
 
@@ -178,9 +178,9 @@ var loadFile = function(event) {
 
            Image: <input type=file name="emp_image_file" style="height:40px;font-size:14pt;color:grey;"> <br><br>
 
-           <button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
+           <button type="submit" formaction="/editdetails" formmethod="GET/POST" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
 
-     </form>
+      </form>
 	</div>
 
 			<br><br>
