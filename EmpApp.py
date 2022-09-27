@@ -123,6 +123,8 @@ def GetEmp():
     return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary,image_url=image_url)
 
 
+
+
 @app.route("/applyleave", methods=['POST'])
 def ApplyLeave():
     emp_id = request.form['emp_id']
@@ -130,7 +132,7 @@ def ApplyLeave():
     reason_leave = request.form['reason_leave']
     support_doc_file = request.files['support_doc_file']
 
-    insert_sql = "INSERT INTO empLeave VALUES (%s, %s)"
+    insert_sql = "INSERT INTO empLeave VALUES (%s, %s, %s)"
     cursor = db_conn.cursor()
 
     if support_doc_file.filename == "":
@@ -138,7 +140,7 @@ def ApplyLeave():
 
     try:
 
-        cursor.execute(insert_sql, (date_leave, reason_leave))
+        cursor.execute(insert_sql, (emp_id, date_leave, reason_leave))
         db_conn.commit()
         # Uplaod image file in S3 #
         support_doc_file_in_s3 = "emp-id-" + str(emp_id) + "_support_doc_file"
