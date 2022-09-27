@@ -125,7 +125,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details['first_name'])# , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details['first_name'])
 
 
 
