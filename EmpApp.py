@@ -189,7 +189,7 @@ def EmpAtt():
             return str(e)
     finally:
         cursor.close()
-    return render_template('EmpAttOut.html', status=status)
+    return render_template('GetAttendanceOutput.html', status=status)
 
 
 
