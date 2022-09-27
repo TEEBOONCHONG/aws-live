@@ -107,7 +107,8 @@ def GetEmp():
     cursor = db_conn.cursor()
 
     try:
-        result_fname = cursor.execute(get_fname)
+        cursor.execute(get_fname)
+        result_fname = cursor.fetchall()
         result_lname = cursor.execute(get_lname)
         result_pri = cursor.execute(get_pri)
         result_location = cursor.execute(get_location)
@@ -119,7 +120,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_fname , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
+    return render_template('GetEmpOutput.html', id=emp_id, fname=str(result_fname) , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
 
 
 
