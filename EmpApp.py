@@ -97,23 +97,20 @@ def AddEmp():
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
-    get_details = "SELECT * FROM employee WHERE emp_id" + " = " + emp_id
-
+    get_details = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
 
     cursor = db_conn.cursor()
 
     try:
-
-        cursor.execute(get_details)
-	  results = cursor.fetchall()
-        db_conn.commit()
-        s3 = boto3.resource('s3')
+        result = cursor.execute(get_details)
+        #db_conn.commit()#
+        #s3 = boto3.resource('s3')#
 
     finally:
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=results)
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result)
 
 
 
