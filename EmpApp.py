@@ -112,7 +112,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details['first_name])
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details(first_name))
 
 
 @app.route("/applyleave", methods=['GET', 'POST'])
