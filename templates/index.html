@@ -96,6 +96,7 @@ footer{
 <!-------------------------header------------------------->
 
 <div class="header">
+  <a  href="/">GSI</a>
 			<div class="header-right">
         <a  class="active" href="/">Home</a>
         <a  href="/addEmp">Add Employee</a>
@@ -112,37 +113,16 @@ footer{
 
 
 <!-------------------------content------------------------>
-<div align="center">
-<div id="content">
-
-<br>
-
-<div style="text-align:center">
-	<span class="dot" onclick="currentSlide(1)"></span>
-	<span class="dot" onclick="currentSlide(2)"></span>
-	<span class="dot" onclick="currentSlide(3)"></span>
 </div>
-
-<script>
-var slideIndex = 0;
-showSlides();
-
-function showSlides() {
-  var i;
-  var slides = document.getElementsByClassName("Slides");
-  var dots = document.getElementsByClassName("dot");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";  
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}    
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
-}
-</script>
+			
+<center>
+	<font color="Black" size="5" style="font-family: avenir">
+			<div id="bgBox">
+			<h1>WELCOME TO GSI!</h1>
+			<h2>Your one place solutions</h2>
+      <h3>Explore GSI</h3>
+				</div>
+	
 
 
 
@@ -150,7 +130,7 @@ function showSlides() {
 <footer>
 <hr>
 <div id="copy">
-<p>&copy;2022 by YYDS</p>
+<p>&copy;2022 by GSI</p>
 </div>
 
 </footer>
