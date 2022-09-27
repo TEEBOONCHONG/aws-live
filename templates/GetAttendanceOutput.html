@@ -11,17 +11,10 @@
 		<body bgcolor="lightgrey">
 
 			<form>
-
-				<div>
-
-			  		Employee ID:<br> {{ id }} <br><br>
-
-			  		Attendance Status:<br> {{ status }} <br><br>
-
-			  		<button type="submit" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;"  formaction="/empattend" formmethod="POST">GO BACK</button><br><br>
-
-			  	</div>
-
+				<form action="/empAttendance" autocomplete="on" method = "GET / POST">
+					Attendance Status:<br> {{ status }} <br><br>
+					<button type="submit" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;" >GO BACK</button><br><br>
+			  </form>
 			</form>
 
 		</body>
