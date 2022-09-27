@@ -172,23 +172,26 @@ def ApplyLeave():
     return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave)
 
 
-@app.route("/payroll", methods=['GET', 'POST'])
-def Payroll():
-    emp_id = request.args['emp_id']
-    deduct = request.args['deduct']
+@app.route("/empattend", methods=['POST'])
+def EmpAtt():
+    emp_id = request.form['emp_id']
+    attstatus = request.form['attstatus']
 
-    mycursor = db_conn.cursor()
+    insert_sql = "INSERT INTO attendance VALUES (%s, %s)"
     cursor = db_conn.cursor()
-    insert_sql = "INSERT INTO empPayroll VALUES (%s, %s, %s)"
-    getSalary = "SELECT salary FROM employee WHERE emp_id = %s"
-    mycursor.execute(getSalary,(emp_id))
-    cursor.execute(insert_sql, (emp_id, salary, deduct))
-    db_conn.commit()
-    result = mycursor.fetchall()
-    (salary) = result[0]
-    new_salary = getEmpSalary - deduct   
+    
+    try:
+        cursor.execute(insert_sql, (emp_id, attstatus))
+        db_conn.commit()
+        status = "Employee " + emp_id + " has checked in at the date 11 April 2020." 
 
-    return render_template('GetPayrollOutput.html', id=emp_id, salary=getSalary, deduct=deduct, new_salary=new_salary)
+    except Exception as e:
+            return str(e)
+    finally:
+        cursor.close()
+    return render_template('EmpAttOut.html', status=status)
+
+
 
 
 if __name__ == '__main__':
