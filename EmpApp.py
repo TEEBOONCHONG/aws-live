@@ -108,11 +108,12 @@ def GetEmp():
 
     try:
         cursor.execute(get_fname)
-        result_fname = cursor.fetchall()
+	  result_fname = cursor.execute(get_fname)
 	  result_lname = cursor.execute(get_lname)
         result_pri = cursor.execute(get_pri)
         result_location = cursor.execute(get_location)
         result_salary = cursor.execute(get_salary)
+        result = cursor.fetchall()
         #db_conn.commit()#
         #s3 = boto3.resource('s3')#
 
