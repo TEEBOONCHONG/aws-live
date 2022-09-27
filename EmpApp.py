@@ -96,7 +96,7 @@ def AddEmp():
 
 
 
-@app.route("/fetchdata", methods=['POST'])
+@app.route("/fetchdata", methods=['GET', 'POST'])
 def GetEmp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
