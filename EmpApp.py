@@ -110,7 +110,6 @@ def GetEmp():
         cursor.execute(get_fname)
         result_fname = cursor.fetchall()
 	  cursor.execute(get_lname)
-        result_lname = cursor.fetchall()
         result_pri = cursor.execute(get_pri)
         result_location = cursor.execute(get_location)
         result_salary = cursor.execute(get_salary)
