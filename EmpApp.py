@@ -107,7 +107,7 @@ def GetEmp():
     cursor = db_conn.cursor()
 
     try:
-        result_fname = cursor.execute(get_fname)
+        result_fname = cursor.execute(str(get_fname))
         result_lname = cursor.execute(get_lname)
         result_pri = cursor.execute(get_pri)
         result_location = cursor.execute(get_location)
