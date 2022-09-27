@@ -94,7 +94,7 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
-@app.route("/fetchdata", methods=['POST'])
+@app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
     get_details = "SELECT (%s, %s, %s, %s, %s) FROM employee WHERE emp_id" + " = " + emp_id
