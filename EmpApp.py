@@ -105,7 +105,7 @@ def GetEmp():
 
     try:
         result = cursor.execute(get_details)
-        result1 = cursor.execute(get_details)
+        result1 = cursor.execute(get_details1)
         #db_conn.commit()#
         #s3 = boto3.resource('s3')#
 
