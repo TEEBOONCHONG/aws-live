@@ -123,17 +123,14 @@ def GetEmp():
     return render_template('GetEmpOutput.html', id=emp_id,fname=first_name,lname=last_name,interest=pri_skill,location=location,salary=salary,image_url=image_url)
 
 
-
-
-
-@app.route("/applyleave", methods=['GET', 'POST'])
+@app.route("/applyleave", methods=['POST'])
 def ApplyLeave():
     emp_id = request.form['emp_id']
     date_leave = request.form['date_leave']
     reason_leave = request.form['reason_leave']
-    support_doc_file = request.form['support_doc_file']
+    support_doc_file = request.files['support_doc_file']
 
-    insert_sql = "INSERT INTO employee VALUES (%s, %s) WHERE emp_id=emp_id"
+    insert_sql = "INSERT INTO empLeave VALUES (%s, %s)"
     cursor = db_conn.cursor()
 
     if support_doc_file.filename == "":
@@ -148,7 +145,7 @@ def ApplyLeave():
         s3 = boto3.resource('s3')
 
         try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
+            print("Data inserted in MySQL RDS... uploading evidence to S3...")
             s3.Bucket(custombucket).put_object(Key=support_doc_file_in_s3, Body=support_doc_file)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
@@ -170,7 +167,8 @@ def ApplyLeave():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave, docs_url=object_url)
+    return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave)
+
 
 
 @app.route("/payroll", methods=['GET', 'POST'])
