@@ -172,10 +172,22 @@ def ApplyLeave():
     return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave)
 
 
+@app.route("/payroll", methods=['GET','POST'])
+def Payroll():
+    emp_id = request.form['emp_id']
+    deduct = request.form['deduct']
+
+    mycursor = db_conn.cursor()
+    getSalary = "select salary from employee WHERE emp_id = %s"
+    mycursor.execute(getSalary,(emp_id))
+    result = mycursor.fetchall()
+    (salary) = result[0]
+    new_salary = getEmpSalary - deduct   
+
+    return render_template('GetPayrollOutput.html', id=emp_id, salary=getSalary, deduct=deduct, new_salary=new_salary)
 
 
-
-@app.route("/payroll", methods=['GET, POST'])
+@app.route("/payroll", methods=['POST'])
 def Payroll():
     emp_id = request.form['emp_id']
     deduct = request.form['deduct']
