@@ -97,25 +97,27 @@ def AddEmp():
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
-    get_fname = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_lname = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_pri = "SELECT pri_skill FROM employee WHERE emp_id" + " = " + emp_id
-    get_location = "SELECT location FROM employee WHERE emp_id" + " = " + emp_id
-    get_salary = "SELECT salary FROM employee WHERE emp_id" + " = " + emp_id
+    get_details = "SELECT * FROM employee WHERE emp_id" + " = " + emp_id
+    #get_lname = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id#
+    #get_pri = "SELECT pri_skill FROM employee WHERE emp_id" + " = " + emp_id#
+    #get_location = "SELECT location FROM employee WHERE emp_id" + " = " + emp_id#
+    #get_salary = "SELECT salary FROM employee WHERE emp_id" + " = " + emp_id#
 
 
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(get_fname)
-        result_fname = cursor.fetchall()
+        cursor.execute(get_details)
+        result_details = cursor.fetchall()
 
-	  cursor.execute(get_lname)
-        result_lname = cursor.fetchall()
+	  #cursor.execute(get_lname)#
+        result_lname = cursor.fetchall()#
 
-        result_pri = cursor.execute(get_pri)
-        result_location = cursor.execute(get_location)
-        result_salary = cursor.execute(get_salary)
+        #result_pri = cursor.execute(get_pri)#
+        #result_location = cursor.execute(get_location)#
+        #result_salary = cursor.execute(get_salary)#
+
+
         #db_conn.commit()#
         #s3 = boto3.resource('s3')#
 
@@ -123,7 +125,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_fname , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details['first_name'])# , lname=result_lname, interest=result_pri, location=result_location, salary=result_salary)
 
 
 
