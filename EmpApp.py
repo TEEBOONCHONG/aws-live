@@ -30,11 +30,11 @@ def findEmp():
     return render_template('GetEmp.html')
 
 @app.route("/empLeave", methods=['GET', 'POST'])
-def home():
+def leave():
     return render_template('leave.html')
 
 @app.route("/empPayroll", methods=['GET', 'POST'])
-def home():
+def empPayroll():
     return render_template('payroll.html')
 
 
