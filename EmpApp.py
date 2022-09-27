@@ -114,7 +114,7 @@ def showimage(bucket):
 def GetEmp():
     emp_id = request.args['emp_id']
     mycursor = db_conn.cursor()
-    getempdata = "select * from employee WHERE emp_id = %s"
+    getempdata = "SELECT * FROM employee WHERE emp_id = %s"
     mycursor.execute(getempdata,(emp_id))
     result = mycursor.fetchall()
     (emp_id,first_name,last_name,pri_skill,location,salary) = result[0]
@@ -172,14 +172,18 @@ def ApplyLeave():
     return render_template('GetLeaveOutput.html', id=emp_id, date=date_leave, reason=reason_leave)
 
 
-@app.route("/payroll", methods=['GET','POST'])
+@app.route("/payroll", methods=['GET', 'POST'])
 def Payroll():
-    emp_id = request.form['emp_id']
+    emp_id = request.args['emp_id']
     deduct = request.form['deduct']
 
     mycursor = db_conn.cursor()
-    getSalary = "select salary from employee WHERE emp_id = %s"
+    cursor = db_conn.cursor()
+    insert_sql = "INSERT INTO empPayroll VALUES (%s, %s, %s)"
+    getSalary = "SELECT salary FROM employee WHERE emp_id = %s"
     mycursor.execute(getSalary,(emp_id))
+    cursor.execute(insert_sql, (emp_id, salary, deduct))
+    db_conn.commit()
     result = mycursor.fetchall()
     (salary) = result[0]
     new_salary = getEmpSalary - deduct   
