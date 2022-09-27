@@ -128,9 +128,9 @@ def GetEmp():
 @app.route("/applyleave", methods=['POST'])
 def ApplyLeave():
     emp_id = request.form['emp_id']
-    date_leave = request.form['date_leave']
+    date_leave = request.form['str(date_leave)']
     reason_leave = request.form['reason_leave']
-    support_doc_file = request.files['support_doc_file']
+    support_doc_file = request.files['leave_document']
 
     insert_sql = "INSERT INTO empLeave VALUES (%s, %s, %s)"
     cursor = db_conn.cursor()
