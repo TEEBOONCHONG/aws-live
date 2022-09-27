@@ -97,6 +97,12 @@ def AddEmp():
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
+    get_fname = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
+    get_lname = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id
+    get_pri = "SELECT pri_skill FROM employee WHERE emp_id" + " = " + emp_id
+    get_location = "SELECT location FROM employee WHERE emp_id" + " = " + emp_id
+    get_salary = "SELECT salary FROM employee WHERE emp_id" + " = " + emp_id
+
     get_details = "SELECT * FROM employee WHERE emp_id" + " = " + emp_id
 
 
@@ -105,6 +111,7 @@ def GetEmp():
 
     try:
         cursor.execute(get_details)
+        cursor.execute(get_fname)
         result_details = cursor.fetchall()
 
 
@@ -112,7 +119,7 @@ def GetEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details(first_name))
+    return render_template('GetEmpOutput.html', id=emp_id, fname=result_details(get_fname))
 
 
 @app.route("/applyleave", methods=['GET', 'POST'])
