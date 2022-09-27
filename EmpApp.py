@@ -97,11 +97,11 @@ def AddEmp():
 @app.route("/fetchdata", methods=['GET'])
 def GetEmp():
     emp_id = request.args['emp_id']
-    get_fname = "SELECT first_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_lname = "SELECT last_name FROM employee WHERE emp_id" + " = " + emp_id
-    get_pri = "SELECT pri_skill FROM employee WHERE emp_id" + " = " + emp_id
-    get_location = "SELECT location FROM employee WHERE emp_id" + " = " + emp_id
-    get_salary = "SELECT salary FROM employee WHERE emp_id" + " = " + emp_id
+    get_fname = "SELECT VALUES first_name FROM employee WHERE emp_id" + " = " + emp_id
+    get_lname = "SELECT VALUES last_name FROM employee WHERE emp_id" + " = " + emp_id
+    get_pri = "SELECT VALUES pri_skill FROM employee WHERE emp_id" + " = " + emp_id
+    get_location = "SELECT VALUES location FROM employee WHERE emp_id" + " = " + emp_id
+    get_salary = "SELECT VALUES salary FROM employee WHERE emp_id" + " = " + emp_id
 
 
     cursor = db_conn.cursor()
